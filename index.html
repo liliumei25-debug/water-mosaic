@@ -4,571 +4,64 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#f5f7fb">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f7fb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>水波纹雾面马赛克</title>
 <style>
-:root{
-  --bg:#f5f7fb; --card:#ffffff; --line:#e7ebf2; --text:#172033; --muted:#6c7890;
-  --accent:#4169ff; --soft:#eef3ff; --danger:#c93636; --radius:18px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif}
-body{min-height:100vh}
-button,input{font:inherit}
-.wrap{max-width:1100px;margin:0 auto;padding:16px 14px 88px}
-h1{margin:0;font-size:30px;letter-spacing:-.03em}
-.sub{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.5}
-.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:340px 1fr;gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:0 8px 24px rgba(25,35,65,.05)}
-.tools h2,.viewer h2{margin:0 0 10px;font-size:18px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn{
-  border:1px solid var(--line);background:#fff;color:var(--text);border-radius:12px;
-  padding:10px 12px;font-weight:650;cursor:pointer
-}
-.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn.soft{background:var(--soft);color:var(--accent);border-color:#dbe5ff}
-.btn.danger{color:var(--danger)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.filebox{display:flex;gap:8px;flex-wrap:wrap}
-.fileinput{display:none}
-.group{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfcfe;margin-top:10px}
-.group-title{font-size:13px;font-weight:800;margin-bottom:10px}
-.field{margin-bottom:12px}
-.field:last-child{margin-bottom:0}
-.field label{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:6px}
-input[type=range]{width:100%}
-.tip{font-size:12px;color:var(--muted);line-height:1.55}
-.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:18px}
-.viewer .canvas-wrap{
-  position:relative;background:#eef2f7;border:1px dashed #cfd6e5;border-radius:16px;
-  min-height:420px;display:flex;align-items:center;justify-content:center;overflow:hidden
-}
-canvas{max-width:100%;touch-action:none;display:block}
-.placeholder{padding:24px;text-align:center;color:var(--muted);line-height:1.7}
-.badge{display:inline-block;background:#eef3ff;border:1px solid #d9e3ff;color:#4169ff;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.footer-tip{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6}
-.switch{display:flex;gap:8px;flex-wrap:wrap}
-.switch .btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-@media (max-width: 880px){
-  .grid{grid-template-columns:1fr}
-  .viewer .canvas-wrap{min-height:360px}
-}
+:root{--bg:#f5f7fb;--card:#fff;--line:#e5e9f1;--text:#172033;--muted:#6e788b;--accent:#315cff;--accentSoft:#eef2ff;--danger:#c73535;--radius:18px}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif}body{min-height:100vh}button,input{font:inherit}.app{max-width:1180px;margin:auto;padding:16px 14px 88px}.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px}h1{margin:0;font-size:30px;letter-spacing:-.03em}.sub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}.badge{font-size:12px;font-weight:700;color:var(--accent);background:var(--accentSoft);padding:6px 10px;border-radius:999px;border:1px solid #dce4ff}.layout{display:grid;grid-template-columns:350px minmax(0,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:0 8px 24px rgba(20,31,60,.05)}h2{font-size:18px;margin:0 0 10px}.actions,.mode-row,.zoom-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:11px;padding:9px 11px;font-weight:680;cursor:pointer;min-height:42px}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.soft{background:var(--accentSoft);color:var(--accent);border-color:#dce4ff}.btn.danger{color:var(--danger)}.btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}.btn:disabled{opacity:.42}.file{display:none}.group{margin-top:10px;padding:11px;border:1px solid var(--line);border-radius:14px;background:#fbfcfe}.gtitle{font-size:13px;font-weight:800;margin-bottom:9px}.field{margin-top:10px}.field:first-of-type{margin-top:0}.field label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);gap:8px;margin-bottom:5px}input[type=range]{width:100%}.shape-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.shape-grid .btn{padding:8px 7px;font-size:12px}.shape-grid .btn:first-child{grid-column:1/-1}.tip,.status{font-size:12px;color:var(--muted);line-height:1.55}.status{margin-top:8px;min-height:18px}.viewer{min-width:0}.stage{position:relative;overflow:auto;background:#edf1f7;border:1px dashed #cad2e1;border-radius:16px;min-height:560px;max-height:76vh;overscroll-behavior:contain}.stage.pan-mode{touch-action:pan-x pan-y}.shell{position:relative;margin:16px auto;transform-origin:top left}canvas{display:block;width:100%;height:100%}#viewCanvas{position:relative;z-index:1;touch-action:none}#previewCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}.pan-mode #viewCanvas{touch-action:pan-x pan-y}.placeholder{padding:80px 20px;text-align:center;color:var(--muted);line-height:1.7}.zoom-row .zoom-range{flex:1;min-width:130px}.zoom-label{font-size:12px;color:var(--muted);min-width:44px;text-align:right}.small-btn{width:42px;padding:8px 0}.viewer-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.viewer-head h2{margin:0}@media(max-width:900px){.layout{grid-template-columns:1fr}.stage{min-height:430px;max-height:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top">
-    <div>
-      <h1>水波纹雾面马赛克</h1>
-      <div class="sub">导入照片后，用手指在需要的位置涂抹。效果偏向浴室雾面玻璃感，带一点水波纹扭曲。导出时可直接下载，部分 iPad 浏览器支持调用系统分享保存到相册。</div>
-    </div>
-    <div class="badge">iPad 友好</div>
-  </div>
-
-  <div class="grid">
-    <section class="card tools">
-      <h2>工具</h2>
-
-      <div class="filebox">
-        <label class="btn primary" for="fileInput">导入照片</label>
-        <input id="fileInput" class="fileinput" type="file" accept="image/*">
-        <button id="exportBtn" class="btn soft" disabled>导出图片</button>
-        <button id="shareBtn" class="btn" disabled>保存到相册 / 分享</button>
-      </div>
-
-      <div class="group">
-        <div class="group-title">涂抹模式</div>
-        <div class="switch">
-          <button id="modeBrush" class="btn active">涂抹</button>
-          <button id="modeErase" class="btn">擦除</button>
-        </div>
-        <div class="status" id="modeStatus">当前：涂抹马赛克</div>
-      </div>
-
-      <div class="group">
-        <div class="group-title">效果参数</div>
-
-        <div class="field">
-          <label><span>笔刷大小</span><span id="brushVal">56 px</span></label>
-          <input id="brushSize" type="range" min="12" max="180" step="1" value="56">
-        </div>
-
-        <div class="field">
-          <label><span>雾面强度</span><span id="fogVal">26</span></label>
-          <input id="fogStrength" type="range" min="8" max="60" step="1" value="26">
-        </div>
-
-        <div class="field">
-          <label><span>水波强度</span><span id="waveVal">9</span></label>
-          <input id="waveStrength" type="range" min="0" max="24" step="1" value="9">
-        </div>
-
-        <div class="field">
-          <label><span>像素颗粒</span><span id="pixVal">8</span></label>
-          <input id="pixelSize" type="range" min="2" max="18" step="1" value="8">
-        </div>
-      </div>
-
-      <div class="group">
-        <div class="group-title">编辑操作</div>
-        <div class="actions">
-          <button id="undoBtn" class="btn" disabled>撤销</button>
-          <button id="redoBtn" class="btn" disabled>重做</button>
-          <button id="clearBtn" class="btn danger" disabled>清空涂抹</button>
-          <button id="regenBtn" class="btn" disabled>重新生成效果</button>
-        </div>
-        <div class="footer-tip">
-          提示：<br>
-          1. 先导入照片。<br>
-          2. 在右侧图片上直接涂抹。<br>
-          3. 如果想弱一点或更糊一点，调节“雾面强度”和“像素颗粒”。<br>
-          4. “保存到相册 / 分享”若无反应，可用“导出图片”后在 iPad 里保存到照片。
-        </div>
-      </div>
-
-      <div class="group">
-        <div class="group-title">当前状态</div>
-        <div class="tip" id="infoText">还没有导入图片。</div>
-      </div>
-    </section>
-
-    <section class="card viewer">
-      <h2>画布</h2>
-      <div class="canvas-wrap" id="canvasWrap">
-        <div class="placeholder" id="placeholder">请先导入一张照片。<br>导入后，直接在图片上用手指涂抹需要打码的位置。</div>
-        <canvas id="viewCanvas" hidden></canvas>
-      </div>
-    </section>
-  </div>
+<div class="app">
+<div class="top"><div><h1>水波纹雾面马赛克</h1><div class="sub">自由画、圆形、方形、矩形、椭圆打码。照片可放大后精细涂抹。</div></div><div class="badge">GitHub Pages · iPad</div></div>
+<div class="layout">
+<section class="card">
+<h2>工具</h2>
+<div class="actions"><label for="fileInput" class="btn primary">导入照片</label><input id="fileInput" class="file" type="file" accept="image/*"><button id="shareBtn" class="btn soft" disabled>保存 / 分享</button><button id="exportBtn" class="btn" disabled>导出 PNG</button></div>
+<div class="group"><div class="gtitle">操作模式</div><div class="mode-row"><button id="paintModeBtn" class="btn active">涂抹马赛克</button><button id="panModeBtn" class="btn">移动画布</button><button id="eraseModeBtn" class="btn">擦除马赛克</button></div><div id="interactionStatus" class="status">当前：涂抹马赛克</div></div>
+<div class="group"><div class="gtitle">马赛克形状</div><div class="shape-grid"><button class="btn active" data-shape="free">✏️ 自由画</button><button class="btn" data-shape="circle">● 圆形笔刷</button><button class="btn" data-shape="square">■ 方形笔刷</button><button class="btn" data-shape="rect">▭ 矩形选区</button><button class="btn" data-shape="ellipse">⬭ 椭圆选区</button></div><div id="shapeHint" class="status">拖动手指自由涂抹。</div></div>
+<div class="group"><div class="gtitle">照片缩放</div><div class="zoom-row"><button id="zoomOut" class="btn small-btn">−</button><input id="zoomRange" class="zoom-range" type="range" min="50" max="400" step="10" value="100"><button id="zoomIn" class="btn small-btn">＋</button><span id="zoomLabel" class="zoom-label">100%</span></div><div class="actions" style="margin-top:7px"><button id="fitBtn" class="btn">适应窗口</button><button id="zoom100Btn" class="btn">100%</button></div><div class="tip" style="margin-top:7px">放大后点“移动画布”拖看其他位置，再切回涂抹。</div></div>
+<div class="group"><div class="gtitle">效果</div><div class="field"><label><span>笔刷 / 图形大小</span><span id="brushValue">64 px</span></label><input id="brushSize" type="range" min="16" max="260" step="2" value="64"></div><div class="field"><label><span>雾面强度</span><span id="fogValue">18</span></label><input id="fogStrength" type="range" min="2" max="36" step="1" value="18"></div><div class="field"><label><span>水波强度</span><span id="waveValue">10</span></label><input id="waveStrength" type="range" min="0" max="30" step="1" value="10"></div><div class="field"><label><span>颗粒强度</span><span id="pixelValue">7</span></label><input id="pixelSize" type="range" min="2" max="20" step="1" value="7"></div></div>
+<div class="group"><div class="gtitle">编辑</div><div class="actions"><button id="undoBtn" class="btn" disabled>撤销</button><button id="redoBtn" class="btn" disabled>重做</button><button id="clearBtn" class="btn danger" disabled>清空马赛克</button><button id="rebuildBtn" class="btn" disabled>刷新效果</button></div></div>
+<div class="group"><div class="gtitle">状态</div><div id="info" class="tip">请先导入一张照片。</div></div>
+</section>
+<section class="card viewer"><div class="viewer-head"><h2>照片</h2><div class="badge" id="canvasBadge">未导入</div></div><div id="stage" class="stage"><div id="placeholder" class="placeholder">导入照片后，在这里进行马赛克处理。</div><div id="shell" class="shell" hidden><canvas id="viewCanvas"></canvas><canvas id="previewCanvas"></canvas></div></div></section>
 </div>
-
+</div>
 <script>
-const fileInput = document.getElementById('fileInput');
-const exportBtn = document.getElementById('exportBtn');
-const shareBtn = document.getElementById('shareBtn');
-const undoBtn = document.getElementById('undoBtn');
-const redoBtn = document.getElementById('redoBtn');
-const clearBtn = document.getElementById('clearBtn');
-const regenBtn = document.getElementById('regenBtn');
-const infoText = document.getElementById('infoText');
-const placeholder = document.getElementById('placeholder');
-const canvas = document.getElementById('viewCanvas');
-const ctx = canvas.getContext('2d', {willReadFrequently:true});
-
-const brushSize = document.getElementById('brushSize');
-const fogStrength = document.getElementById('fogStrength');
-const waveStrength = document.getElementById('waveStrength');
-const pixelSize = document.getElementById('pixelSize');
-const brushVal = document.getElementById('brushVal');
-const fogVal = document.getElementById('fogVal');
-const waveVal = document.getElementById('waveVal');
-const pixVal = document.getElementById('pixVal');
-
-const modeBrush = document.getElementById('modeBrush');
-const modeErase = document.getElementById('modeErase');
-const modeStatus = document.getElementById('modeStatus');
-
-let state = {
-  image:null,
-  filename:'mosaic.png',
-  mode:'brush',
-  drawing:false,
-  hasMask:false,
-  maxSide:1800
-};
-
-let originalCanvas = document.createElement('canvas');
-let originalCtx = originalCanvas.getContext('2d', {willReadFrequently:true});
-let effectCanvas = document.createElement('canvas');
-let effectCtx = effectCanvas.getContext('2d', {willReadFrequently:true});
-let maskCanvas = document.createElement('canvas');
-let maskCtx = maskCanvas.getContext('2d', {willReadFrequently:true});
-let tempCanvas = document.createElement('canvas');
-let tempCtx = tempCanvas.getContext('2d', {willReadFrequently:true});
-
-let undoStack = [];
-let redoStack = [];
-
-function setMode(mode){
-  state.mode = mode;
-  modeBrush.classList.toggle('active', mode==='brush');
-  modeErase.classList.toggle('active', mode==='erase');
-  modeStatus.textContent = mode==='brush' ? '当前：涂抹马赛克' : '当前：擦除已涂抹区域';
-}
-modeBrush.onclick = ()=>setMode('brush');
-modeErase.onclick = ()=>setMode('erase');
-
-function updateLabels(){
-  brushVal.textContent = brushSize.value + ' px';
-  fogVal.textContent = fogStrength.value;
-  waveVal.textContent = waveStrength.value;
-  pixVal.textContent = pixelSize.value;
-}
-updateLabels();
-
-[brushSize,fogStrength,waveStrength,pixelSize].forEach(el=>{
-  el.addEventListener('input', ()=>{
-    updateLabels();
-    if(state.image && el !== brushSize){
-      buildEffectCanvas();
-    }
-    render();
-  });
-});
-
-fileInput.addEventListener('change', async (e)=>{
-  const file = e.target.files && e.target.files[0];
-  if(!file) return;
-  state.filename = file.name.replace(/\.[^.]+$/, '') + '_mosaic.png';
-  await loadImageFile(file);
-  e.target.value = '';
-});
-
-async function loadImageFile(file){
-  const url = URL.createObjectURL(file);
-  const img = new Image();
-  img.onload = ()=>{
-    URL.revokeObjectURL(url);
-    setupImage(img, file.name);
-  };
-  img.onerror = ()=>{
-    URL.revokeObjectURL(url);
-    alert('图片读取失败，请换一张试试。');
-  };
-  img.src = url;
-}
-
-function setupImage(img, name){
-  state.image = img;
-  const ratio = Math.min(1, state.maxSide / Math.max(img.naturalWidth, img.naturalHeight));
-  const w = Math.max(1, Math.round(img.naturalWidth * ratio));
-  const h = Math.max(1, Math.round(img.naturalHeight * ratio));
-
-  [originalCanvas,effectCanvas,maskCanvas,tempCanvas,canvas].forEach(c=>{
-    c.width = w;
-    c.height = h;
-  });
-
-  originalCtx.clearRect(0,0,w,h);
-  originalCtx.drawImage(img, 0, 0, w, h);
-  maskCtx.clearRect(0,0,w,h);
-  effectCtx.clearRect(0,0,w,h);
-  tempCtx.clearRect(0,0,w,h);
-
-  undoStack = [];
-  redoStack = [];
-  state.hasMask = false;
-
-  placeholder.hidden = true;
-  canvas.hidden = false;
-
-  buildEffectCanvas();
-  render();
-  updateButtons();
-
-  infoText.textContent = `已导入：${name}。编辑尺寸 ${w} × ${h}。`;
-}
-
-function updateButtons(){
-  const hasImage = !!state.image;
-  exportBtn.disabled = !hasImage;
-  shareBtn.disabled = !hasImage;
-  clearBtn.disabled = !hasImage || !state.hasMask;
-  regenBtn.disabled = !hasImage;
-  undoBtn.disabled = undoStack.length === 0;
-  redoBtn.disabled = redoStack.length === 0;
-}
-
-function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
-
-function buildEffectCanvas(){
-  if(!state.image) return;
-  const w = originalCanvas.width;
-  const h = originalCanvas.height;
-  const srcData = originalCtx.getImageData(0,0,w,h);
-  const src = srcData.data;
-  const pixel = Math.max(1, parseInt(pixelSize.value,10));
-  const wave = parseInt(waveStrength.value,10);
-  const fog = parseInt(fogStrength.value,10);
-
-  const displaced = new Uint8ClampedArray(src.length);
-  for(let y=0; y<h; y++){
-    for(let x=0; x<w; x++){
-      const waveX = Math.round(Math.sin(y * 0.055) * wave + Math.cos(y * 0.021) * wave * 0.35);
-      const waveY = Math.round(Math.cos(x * 0.05) * wave + Math.sin(x * 0.017) * wave * 0.35);
-      const noise = ((((x * 73856093) ^ (y * 19349663)) >>> 0) % (wave * 2 + 1)) - wave;
-      const sx = clamp(x + waveX + Math.round(noise * 0.3), 0, w - 1);
-      const sy = clamp(y + waveY + Math.round(noise * 0.25), 0, h - 1);
-      const si = (sy * w + sx) * 4;
-      const di = (y * w + x) * 4;
-      displaced[di] = src[si];
-      displaced[di+1] = src[si+1];
-      displaced[di+2] = src[si+2];
-      displaced[di+3] = 255;
-    }
-  }
-
-  const out = new Uint8ClampedArray(src.length);
-  const radius = Math.max(1, Math.round(fog / 7));
-
-  for(let y=0; y<h; y++){
-    for(let x=0; x<w; x++){
-      let rr=0, gg=0, bb=0, count=0;
-      const centerX = Math.floor(x / pixel) * pixel;
-      const centerY = Math.floor(y / pixel) * pixel;
-
-      for(let oy=-radius; oy<=radius; oy++){
-        const py = clamp(centerY + oy * pixel, 0, h - 1);
-        for(let ox=-radius; ox<=radius; ox++){
-          const px = clamp(centerX + ox * pixel, 0, w - 1);
-          const i = (py * w + px) * 4;
-          rr += displaced[i];
-          gg += displaced[i+1];
-          bb += displaced[i+2];
-          count++;
-        }
-      }
-
-      rr /= count;
-      gg /= count;
-      bb /= count;
-      const gray = (rr + gg + bb) / 3;
-      rr = rr * 0.88 + gray * 0.12 + 5;
-      gg = gg * 0.88 + gray * 0.12 + 5;
-      bb = bb * 0.88 + gray * 0.12 + 5;
-
-      const di = (y * w + x) * 4;
-      out[di] = clamp(Math.round(rr), 0, 255);
-      out[di+1] = clamp(Math.round(gg), 0, 255);
-      out[di+2] = clamp(Math.round(bb), 0, 255);
-      out[di+3] = 255;
-    }
-  }
-
-  effectCtx.putImageData(new ImageData(out, w, h), 0, 0);
-}
-
-function saveMaskState(){
-  if(!state.image) return;
-  undoStack.push(maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height));
-  if(undoStack.length > 20) undoStack.shift();
-  redoStack = [];
-  updateButtons();
-}
-
-function maskHasPaint(){
-  const data = maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height).data;
-  for(let i=3;i<data.length;i+=4){
-    if(data[i] > 0) return true;
-  }
-  return false;
-}
-
-undoBtn.onclick = ()=>{
-  if(!undoStack.length) return;
-  redoStack.push(maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height));
-  maskCtx.putImageData(undoStack.pop(), 0, 0);
-  state.hasMask = maskHasPaint();
-  render();
-  updateButtons();
-};
-
-redoBtn.onclick = ()=>{
-  if(!redoStack.length) return;
-  undoStack.push(maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height));
-  maskCtx.putImageData(redoStack.pop(), 0, 0);
-  state.hasMask = maskHasPaint();
-  render();
-  updateButtons();
-};
-
-clearBtn.onclick = ()=>{
-  if(!state.image) return;
-  saveMaskState();
-  maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
-  state.hasMask = false;
-  render();
-  updateButtons();
-};
-
-regenBtn.onclick = ()=>{
-  if(!state.image) return;
-  infoText.textContent = '正在重新生成效果…';
-  setTimeout(()=>{
-    buildEffectCanvas();
-    render();
-    infoText.textContent = '已重新生成效果。';
-  }, 20);
-};
-
-function render(){
-  if(!state.image) return;
-  const w = canvas.width;
-  const h = canvas.height;
-
-  ctx.clearRect(0,0,w,h);
-  ctx.drawImage(originalCanvas, 0, 0);
-
-  tempCtx.clearRect(0,0,w,h);
-  tempCtx.drawImage(effectCanvas, 0, 0);
-  tempCtx.globalCompositeOperation = 'destination-in';
-  tempCtx.drawImage(maskCanvas, 0, 0);
-  tempCtx.globalCompositeOperation = 'source-over';
-  ctx.drawImage(tempCanvas, 0, 0);
-
-  ctx.save();
-  ctx.globalAlpha = 0.16;
-  ctx.drawImage(maskCanvas, 0, 0);
-  ctx.restore();
-}
-
-function getPoint(evt){
-  const rect = canvas.getBoundingClientRect();
-  const pt = evt.touches ? evt.touches[0] : evt;
-  return {
-    x: (pt.clientX - rect.left) * (canvas.width / rect.width),
-    y: (pt.clientY - rect.top) * (canvas.height / rect.height)
-  };
-}
-
-function paintDot(x,y){
-  const r = parseInt(brushSize.value,10) / 2;
-  maskCtx.save();
-  maskCtx.fillStyle = 'rgba(255,255,255,1)';
-  maskCtx.strokeStyle = 'rgba(255,255,255,1)';
-  maskCtx.lineCap = 'round';
-  maskCtx.lineJoin = 'round';
-  maskCtx.lineWidth = r * 2;
-  maskCtx.globalCompositeOperation = state.mode === 'erase' ? 'destination-out' : 'source-over';
-  maskCtx.beginPath();
-  maskCtx.arc(x, y, r, 0, Math.PI * 2);
-  maskCtx.fill();
-  maskCtx.restore();
-}
-
-function paintLine(a,b){
-  const r = parseInt(brushSize.value,10) / 2;
-  maskCtx.save();
-  maskCtx.strokeStyle = 'rgba(255,255,255,1)';
-  maskCtx.lineCap = 'round';
-  maskCtx.lineJoin = 'round';
-  maskCtx.lineWidth = r * 2;
-  maskCtx.globalCompositeOperation = state.mode === 'erase' ? 'destination-out' : 'source-over';
-  maskCtx.beginPath();
-  maskCtx.moveTo(a.x, a.y);
-  maskCtx.lineTo(b.x, b.y);
-  maskCtx.stroke();
-  maskCtx.restore();
-}
-
-let lastPt = null;
-
-function startDraw(evt){
-  if(!state.image) return;
-  evt.preventDefault();
-  saveMaskState();
-  state.drawing = true;
-  lastPt = getPoint(evt);
-  paintDot(lastPt.x, lastPt.y);
-  state.hasMask = maskHasPaint();
-  render();
-  updateButtons();
-}
-function moveDraw(evt){
-  if(!state.drawing || !state.image) return;
-  evt.preventDefault();
-  const pt = getPoint(evt);
-  if(lastPt) paintLine(lastPt, pt);
-  paintDot(pt.x, pt.y);
-  lastPt = pt;
-  state.hasMask = maskHasPaint();
-  render();
-  updateButtons();
-}
-function endDraw(evt){
-  if(!state.drawing) return;
-  if(evt) evt.preventDefault();
-  state.drawing = false;
-  lastPt = null;
-}
-
-canvas.addEventListener('mousedown', startDraw);
-canvas.addEventListener('mousemove', moveDraw);
-window.addEventListener('mouseup', endDraw);
-canvas.addEventListener('touchstart', startDraw, {passive:false});
-canvas.addEventListener('touchmove', moveDraw, {passive:false});
-window.addEventListener('touchend', endDraw, {passive:false});
-
-function finalBlob(){
-  return new Promise(resolve=>{
-    const out = document.createElement('canvas');
-    out.width = canvas.width;
-    out.height = canvas.height;
-    const octx = out.getContext('2d');
-    octx.drawImage(originalCanvas,0,0);
-    const t = document.createElement('canvas');
-    t.width = out.width;
-    t.height = out.height;
-    const tctx = t.getContext('2d');
-    tctx.drawImage(effectCanvas,0,0);
-    tctx.globalCompositeOperation = 'destination-in';
-    tctx.drawImage(maskCanvas,0,0);
-    tctx.globalCompositeOperation = 'source-over';
-    octx.drawImage(t,0,0);
-    out.toBlob(blob=>resolve(blob),'image/png');
-  });
-}
-
-exportBtn.onclick = async ()=>{
-  if(!state.image) return;
-  const blob = await finalBlob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = state.filename || 'mosaic.png';
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(url), 1500);
-  infoText.textContent = '已导出图片。';
-};
-
-shareBtn.onclick = async ()=>{
-  if(!state.image) return;
-  const blob = await finalBlob();
-  const file = new File([blob], state.filename || 'mosaic.png', {type:'image/png'});
-  try{
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({files:[file], title:'水波纹雾面马赛克'});
-      infoText.textContent = '已打开系统分享。可选“存储到照片”。';
-    }else{
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = state.filename || 'mosaic.png';
-      a.click();
-      setTimeout(()=>URL.revokeObjectURL(url), 1500);
-      infoText.textContent = '当前环境不支持直接分享，已改为下载。';
-    }
-  }catch(e){
-    infoText.textContent = '分享已取消或当前环境不支持。';
-  }
-};
-
-updateButtons();
+const $=id=>document.getElementById(id);const fileInput=$('fileInput'),view=$('viewCanvas'),vctx=view.getContext('2d',{willReadFrequently:true}),preview=$('previewCanvas'),pctx=preview.getContext('2d'),stage=$('stage'),shell=$('shell'),placeholder=$('placeholder'),shareBtn=$('shareBtn'),exportBtn=$('exportBtn'),undoBtn=$('undoBtn'),redoBtn=$('redoBtn'),clearBtn=$('clearBtn'),rebuildBtn=$('rebuildBtn'),brushSize=$('brushSize'),fogStrength=$('fogStrength'),waveStrength=$('waveStrength'),pixelSize=$('pixelSize'),zoomRange=$('zoomRange'),zoomLabel=$('zoomLabel'),info=$('info'),canvasBadge=$('canvasBadge');
+const original=document.createElement('canvas'),octx=original.getContext('2d'),effect=document.createElement('canvas'),ectx=effect.getContext('2d'),mask=document.createElement('canvas'),mctx=mask.getContext('2d'),compose=document.createElement('canvas'),cctx=compose.getContext('2d'),waveCanvas=document.createElement('canvas'),wctx=waveCanvas.getContext('2d'),mini=document.createElement('canvas'),minictx=mini.getContext('2d');
+let app={loaded:false,filename:'mosaic.png',mode:'paint',shape:'free',zoom:100,baseCssWidth:0,drawing:false,start:null,last:null,pointerId:null,maxSide:1800};let undoStack=[],redoStack=[],rebuildTimer=null;
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}function syncLabels(){$('brushValue').textContent=brushSize.value+' px';$('fogValue').textContent=fogStrength.value;$('waveValue').textContent=waveStrength.value;$('pixelValue').textContent=pixelSize.value;zoomLabel.textContent=app.zoom+'%'}syncLabels();
+function setMode(mode){app.mode=mode;$('paintModeBtn').classList.toggle('active',mode==='paint');$('panModeBtn').classList.toggle('active',mode==='pan');$('eraseModeBtn').classList.toggle('active',mode==='erase');stage.classList.toggle('pan-mode',mode==='pan');$('interactionStatus').textContent=mode==='paint'?'当前：涂抹马赛克':mode==='erase'?'当前：擦除马赛克':'当前：移动画布'}$('paintModeBtn').onclick=()=>setMode('paint');$('panModeBtn').onclick=()=>setMode('pan');$('eraseModeBtn').onclick=()=>setMode('erase');
+document.querySelectorAll('[data-shape]').forEach(btn=>{btn.onclick=()=>{app.shape=btn.dataset.shape;document.querySelectorAll('[data-shape]').forEach(x=>x.classList.toggle('active',x===btn));const h={free:'拖动手指自由涂抹。',circle:'拖动时连续盖上圆形马赛克。',square:'拖动时连续盖上方形马赛克。',rect:'从一个角拖到另一个角，松手生成矩形马赛克。',ellipse:'拖动框出范围，松手生成椭圆马赛克。'};$('shapeHint').textContent=h[app.shape]}});
+function sizeCanvases(w,h){[original,effect,mask,compose,waveCanvas,view,preview].forEach(c=>{c.width=w;c.height=h})}
+fileInput.onchange=e=>{const f=e.target.files?.[0];if(!f)return;app.filename=f.name.replace(/\.[^.]+$/,'')+'_mosaic.png';const url=URL.createObjectURL(f),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);const scale=Math.min(1,app.maxSide/Math.max(img.naturalWidth,img.naturalHeight)),w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale));sizeCanvases(w,h);octx.clearRect(0,0,w,h);octx.drawImage(img,0,0,w,h);mctx.clearRect(0,0,w,h);undoStack=[];redoStack=[];app.loaded=true;placeholder.hidden=true;shell.hidden=false;requestAnimationFrame(()=>{app.baseCssWidth=Math.min(w,Math.max(280,stage.clientWidth-32));app.zoom=100;zoomRange.value=100;applyZoom();buildEffect();render();updateButtons();info.textContent=`已导入 ${f.name}，编辑尺寸 ${w} × ${h}`;canvasBadge.textContent=`${w} × ${h}`})};img.onerror=()=>{URL.revokeObjectURL(url);alert('图片读取失败')};img.src=url;e.target.value=''};
+function applyZoom(){if(!app.loaded)return;const ratio=view.height/view.width,cssW=app.baseCssWidth*(app.zoom/100);shell.style.width=cssW+'px';shell.style.height=(cssW*ratio)+'px';syncLabels()}
+zoomRange.oninput=()=>{app.zoom=Number(zoomRange.value);applyZoom()};$('zoomOut').onclick=()=>{app.zoom=clamp(app.zoom-10,50,400);zoomRange.value=app.zoom;applyZoom()};$('zoomIn').onclick=()=>{app.zoom=clamp(app.zoom+10,50,400);zoomRange.value=app.zoom;applyZoom()};$('zoom100Btn').onclick=()=>{app.zoom=100;zoomRange.value=100;applyZoom()};$('fitBtn').onclick=()=>{if(!app.loaded)return;app.baseCssWidth=Math.min(view.width,Math.max(280,stage.clientWidth-32));app.zoom=100;zoomRange.value=100;applyZoom();stage.scrollLeft=0;stage.scrollTop=0};
+[brushSize,fogStrength,waveStrength,pixelSize].forEach(el=>{el.oninput=()=>{syncLabels();if(el!==brushSize&&app.loaded){clearTimeout(rebuildTimer);rebuildTimer=setTimeout(()=>{buildEffect();render()},120)}}});
+function buildEffect(){if(!app.loaded)return;const w=original.width,h=original.height,wave=Number(waveStrength.value),pix=Number(pixelSize.value),fog=Number(fogStrength.value);wctx.clearRect(0,0,w,h);const strip=8;for(let y=0;y<h;y+=strip){const sh=Math.min(strip,h-y),dx=Math.sin(y*.045)*wave+Math.sin(y*.013)*wave*.45,dy=Math.cos(y*.027)*wave*.12;wctx.drawImage(original,0,y,w,sh,dx,y+dy,w,sh)}const mw=Math.max(1,Math.floor(w/pix)),mh=Math.max(1,Math.floor(h/pix));mini.width=mw;mini.height=mh;minictx.clearRect(0,0,mw,mh);minictx.imageSmoothingEnabled=true;minictx.drawImage(waveCanvas,0,0,mw,mh);ectx.clearRect(0,0,w,h);ectx.save();ectx.imageSmoothingEnabled=true;if('filter' in ectx)ectx.filter=`blur(${Math.max(1,fog/3.2)}px)`;ectx.drawImage(mini,-8,-8,w+16,h+16);ectx.restore();ectx.fillStyle=`rgba(255,255,255,${Math.min(.16,.035+fog/400)})`;ectx.fillRect(0,0,w,h)}
+function render(){if(!app.loaded)return;const w=view.width,h=view.height;vctx.clearRect(0,0,w,h);vctx.drawImage(original,0,0);cctx.clearRect(0,0,w,h);cctx.drawImage(effect,0,0);cctx.globalCompositeOperation='destination-in';cctx.drawImage(mask,0,0);cctx.globalCompositeOperation='source-over';vctx.drawImage(compose,0,0)}
+function point(e){const r=view.getBoundingClientRect();return{x:(e.clientX-r.left)*(view.width/r.width),y:(e.clientY-r.top)*(view.height/r.height)}}
+function saveHistory(){undoStack.push(mask.toDataURL('image/png'));if(undoStack.length>12)undoStack.shift();redoStack=[];updateButtons()}
+async function restoreMask(data){await new Promise(resolve=>{const im=new Image();im.onload=()=>{mctx.clearRect(0,0,mask.width,mask.height);mctx.drawImage(im,0,0);resolve()};im.src=data});render();updateButtons()}
+function hasMask(){if(!app.loaded)return false;const d=mctx.getImageData(0,0,mask.width,mask.height).data;for(let i=3;i<d.length;i+=4)if(d[i])return true;return false}
+function updateButtons(){const ok=app.loaded;shareBtn.disabled=!ok;exportBtn.disabled=!ok;rebuildBtn.disabled=!ok;undoBtn.disabled=!undoStack.length;redoBtn.disabled=!redoStack.length;clearBtn.disabled=!ok||!hasMask()}
+function maskOp(){mctx.globalCompositeOperation=app.mode==='erase'?'destination-out':'source-over';mctx.fillStyle='#fff';mctx.strokeStyle='#fff'}
+function stamp(pt,shape=app.shape){const s=Number(brushSize.value),r=s/2;maskOp();if(shape==='square')mctx.fillRect(pt.x-r,pt.y-r,s,s);else{mctx.beginPath();mctx.arc(pt.x,pt.y,r,0,Math.PI*2);mctx.fill()}mctx.globalCompositeOperation='source-over'}
+function lineStamp(a,b,shape){const dist=Math.hypot(b.x-a.x,b.y-a.y),step=Math.max(4,Number(brushSize.value)*.22),n=Math.max(1,Math.ceil(dist/step));for(let i=0;i<=n;i++){const t=i/n;stamp({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t},shape)}}
+function drawPreview(a,b){pctx.clearRect(0,0,preview.width,preview.height);if(!a||!b)return;pctx.save();pctx.strokeStyle='rgba(49,92,255,.95)';pctx.lineWidth=Math.max(2,view.width/700*2);pctx.setLineDash([10,7]);const x=Math.min(a.x,b.x),y=Math.min(a.y,b.y),w=Math.abs(b.x-a.x),h=Math.abs(b.y-a.y);if(app.shape==='rect')pctx.strokeRect(x,y,w,h);else{pctx.beginPath();pctx.ellipse(x+w/2,y+h/2,w/2,h/2,0,0,Math.PI*2);pctx.stroke()}pctx.restore()}
+function commitArea(a,b){maskOp();const x=Math.min(a.x,b.x),y=Math.min(a.y,b.y),w=Math.abs(b.x-a.x),h=Math.abs(b.y-a.y);if(app.shape==='rect')mctx.fillRect(x,y,w,h);else{mctx.beginPath();mctx.ellipse(x+w/2,y+h/2,Math.max(.5,w/2),Math.max(.5,h/2),0,0,Math.PI*2);mctx.fill()}mctx.globalCompositeOperation='source-over'}
+view.addEventListener('pointerdown',e=>{if(!app.loaded||app.mode==='pan')return;e.preventDefault();saveHistory();app.drawing=true;app.pointerId=e.pointerId;app.start=point(e);app.last=app.start;try{view.setPointerCapture(e.pointerId)}catch(_){}if(app.shape==='free'||app.shape==='circle'||app.shape==='square'){stamp(app.start,app.shape==='free'?'circle':app.shape);render()}else drawPreview(app.start,app.start)});
+view.addEventListener('pointermove',e=>{if(!app.drawing||e.pointerId!==app.pointerId)return;e.preventDefault();const q=point(e);if(app.shape==='free')lineStamp(app.last,q,'circle');else if(app.shape==='circle'||app.shape==='square')lineStamp(app.last,q,app.shape);else drawPreview(app.start,q);app.last=q;if(app.shape!=='rect'&&app.shape!=='ellipse')render()});
+function finishDraw(e){if(!app.drawing||e.pointerId!==app.pointerId)return;const q=point(e);if(app.shape==='rect'||app.shape==='ellipse'){commitArea(app.start,q);pctx.clearRect(0,0,preview.width,preview.height)}app.drawing=false;app.start=null;app.last=null;app.pointerId=null;try{view.releasePointerCapture(e.pointerId)}catch(_){}render();updateButtons()}view.addEventListener('pointerup',finishDraw);view.addEventListener('pointercancel',()=>{pctx.clearRect(0,0,preview.width,preview.height);app.drawing=false;app.pointerId=null});
+undoBtn.onclick=async()=>{if(!undoStack.length)return;redoStack.push(mask.toDataURL('image/png'));await restoreMask(undoStack.pop())};redoBtn.onclick=async()=>{if(!redoStack.length)return;undoStack.push(mask.toDataURL('image/png'));await restoreMask(redoStack.pop())};clearBtn.onclick=()=>{if(!app.loaded)return;saveHistory();mctx.clearRect(0,0,mask.width,mask.height);render();updateButtons()};rebuildBtn.onclick=()=>{if(app.loaded){buildEffect();render();info.textContent='水波雾面效果已刷新。'}};
+function outputBlob(){return new Promise(resolve=>{const out=document.createElement('canvas');out.width=view.width;out.height=view.height;const x=out.getContext('2d');x.drawImage(original,0,0);const t=document.createElement('canvas');t.width=view.width;t.height=view.height;const tx=t.getContext('2d');tx.drawImage(effect,0,0);tx.globalCompositeOperation='destination-in';tx.drawImage(mask,0,0);tx.globalCompositeOperation='source-over';x.drawImage(t,0,0);out.toBlob(resolve,'image/png')})}
+exportBtn.onclick=async()=>{const blob=await outputBlob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=app.filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);info.textContent='PNG 已导出。'};shareBtn.onclick=async()=>{const blob=await outputBlob(),file=new File([blob],app.filename,{type:'image/png'});try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'水波纹雾面马赛克'});info.textContent='系统分享已打开，可选择“存储到照片”。'}else{const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=app.filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);info.textContent='当前环境不支持文件分享，已改为下载。'}}catch(_){info.textContent='分享已取消。'}};
+window.addEventListener('resize',()=>{if(app.loaded&&app.zoom===100){app.baseCssWidth=Math.min(view.width,Math.max(280,stage.clientWidth-32));applyZoom()}});if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}syncLabels();updateButtons();
 </script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-</script>
-
 </body>
 </html>
